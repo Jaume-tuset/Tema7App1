@@ -4,17 +4,54 @@ import android.os.Bundle
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
+import com.example.tema7app1.databinding.ActivityMainBinding
 import androidx.core.view.WindowInsetsCompat
+import android.view.Menu
+import android.view.MenuItem
+import android.widget.Toast
+
 
 class MainActivity : AppCompatActivity() {
+
+    private lateinit var binding: ActivityMainBinding
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        enableEdgeToEdge()
-        setContentView(R.layout.activity_main)
-        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->
-            val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
-            v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
-            insets
+        binding = ActivityMainBinding.inflate(layoutInflater)
+        setContentView(binding.root)
+        val toolBar: androidx.appcompat.widget.Toolbar =
+            findViewById<androidx.appcompat.widget.Toolbar>(R.id.appbar)
+        setSupportActionBar(toolBar)
+        supportActionBar?.setDisplayShowTitleEnabled(false) // Esto oculta el título de la app en la Toolbar
+    }
+
+
+
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+        menuInflater.inflate(R.menu.menu_main, menu)
+        return true
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        return when(item.itemId){
+            R.id.action_settings ->{
+                showToast("Opción settings seleccionada")
+                true
+            }
+            R.id.action_buscar ->{
+                showToast("Opción search seleccionada")
+                true
+            }
+            R.id.action_nuevo ->{
+                showToast("Opción add seleccionada")
+                true
+            }
+            else -> super.onOptionsItemSelected(item)
         }
     }
+
+    private fun showToast(message: String) {
+        Toast.makeText(this, message, Toast.LENGTH_SHORT).show()
+    }
+
 }
